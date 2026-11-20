@@ -22,9 +22,17 @@ use it. M × N becomes M + N.
 | **Server** | A program that offers tools, resources and prompts | A CRM server, a GitHub server, your own |
 
 ```
-Host (AI app)
-  LLM <-> agent loop <-> Client A -- stdio --> Server A (local files)
-                     <-> Client B -- HTTP  --> Server B (remote CRM)
+┌───────────────── Host (AI app) ─────────────────┐
+│                                                 │
+│  ┌─────┐    ┌────────────┐    ┌──────────┐      │  stdio   ┌───────────────┐
+│  │ LLM │◄──►│            │◄──►│ Client A │──────┼─────────►│   Server A    │
+│  └─────┘    │            │    └──────────┘      │          │ (local files) │
+│             │ Agent loop │                      │          └───────────────┘
+│             │            │    ┌──────────┐      │  HTTP    ┌───────────────┐
+│             │            │◄──►│ Client B │──────┼─────────►│   Server B    │
+│             └────────────┘    └──────────┘      │          │ (remote CRM)  │
+│                                                 │          └───────────────┘
+└─────────────────────────────────────────────────┘
 ```
 
 The model never talks to a server directly. The host chooses which tools the
